@@ -1,9 +1,0 @@
-name: KTP2135
-main: com.gmail.LoyleCraft.KTP2135.KTP2135
-version: 1.0.0
-description: KTP2135
-author: LoyleCraft
-commands:
-  ktp2135:
-    description: Information.
-    usage: /ktp2135

@@ -1,0 +1,152 @@
+KTN:
+  # PLUGIN KTN ------- CONFIG -------
+  #
+  # ATTENTION A CHAQUE FIN DE PARTIE, SUPPRIMER LES MAP DE JEUX (world et world_nether) POUR LES RE-GENERER
+  #
+  MinPlayers: 2
+  MaxPlayers: 20
+
+  StartCountDown: 10
+
+  # Lobby = monde d'arriver
+  # Map = monde de jeu
+  Lobby: 
+    WorldName: lobby
+    Spawn:
+      X: 0
+      Y: 200
+      Z: 0
+      YAW: 0
+      PITCH: 0
+
+  # Pour eviter des bugs, merci de laisser world par default
+  Map:
+    WorldName: world
+    Size: 2000
+
+  # Durant la partie:
+
+  # Si un joueur meur
+  # Fonctionnalite AllowReconnect pas encore disponible
+  AllowReconnect: true
+  KickOnDeath:
+    Kick: true
+    After: 30
+
+  # ScoreBoard
+  ScoreBoardTitle: "KTN S3"
+
+  # Potions
+  PotionLvlDeux: false
+
+  # Divers
+  DoLightCycle:
+    Do: false
+    Time: 6000
+  Weather: false
+  NaturalRegeneration: false
+
+  EpisodeTime: 20
+
+  # Episode ou le murs commence à retrecire
+  WallReduce:
+    Episode: 6
+    Size: 200
+  # En minutes
+    TimeForReduce: 60
+  # Gestion des teams
+  # Pour desactiver les teams, mettre false ci-dessous
+  PlayWithTeams: true
+  Teams:
+    PlayersInTeam: 2
+    Numbers: 8
+  TeamsList:
+    1:
+      Name: RED
+      Color: "&c"
+    2:
+      Name: BLACK
+      Color: "&0"
+    3:
+      Name: YELLOW
+      Color: "&e"
+    4:
+      Name: BLUE
+      Color: "&9"
+    5:
+      Name: GREEN
+      Color: "&a"
+    6:
+      Name: PURPLE
+      Color: "&d"
+    7:
+      Name: AQUA
+      Color: "&b"
+    8:
+      Name: GRAY
+      Color: "&7"
+
+
+  # Spawns list (Inutile d'y toucher si vous jouer dans une map de 2000 blocks)
+  # Meme si vous êtes moins de 20, les spawns sont placés intelligement de façon à remplir correctement la map
+  Spawns:
+    1:
+      x: -500
+      z: 500
+    2:
+      x: -500
+      z: -500
+    3:
+      x: 500
+      z: -500
+    4:
+      x: 500
+      z: 500
+    5:
+      x: -900
+      z: 900
+    6:
+      x: -900
+      z: -900
+    7:
+      x: 900
+      z: -900
+    8:
+      x: 900
+      z: 900
+    9:
+      x: -500
+      z: 250
+    10:
+      x: -250
+      z: -500
+    11:
+      x: 500
+      z: -250
+    12:
+      x: 250
+      z: 500
+    13:
+      x: -500
+      z: -250
+    14:
+      x: 250
+      z: -500
+    15:
+      x: 500
+      z: 250
+    16:
+      x: -250
+      z: 500
+    17:
+      x: -100
+      z: 100
+    18:
+      x: -100
+      z: -100
+    19:
+      x: 100
+      z: -100
+    20:
+      x: 100
+      z: 100

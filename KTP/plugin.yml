@@ -1,9 +1,0 @@
-name: KTP
-main: com.gmail.LoyleCraft.KTP.KTP
-version: 1.0.0
-description: KTP
-author: LoyleCraft
-commands:
-  KTP:
-    description: Informations.
-    usage: /KTP

@@ -1,0 +1,9 @@
+name: KTN
+main: com.gmail.LoyleCraft.KTN.KTN
+version: 1.0.0
+description: KTN (Kill The Noobs)
+author: LoyleCraft
+commands:
+  ktn:
+    description: Informations
+    usage: /ktn
