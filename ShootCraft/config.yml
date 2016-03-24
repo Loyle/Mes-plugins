@@ -1,1 +1,3 @@
 ShootCraft:
+  MinPlayers: 1
+  MaxPlayers: 20

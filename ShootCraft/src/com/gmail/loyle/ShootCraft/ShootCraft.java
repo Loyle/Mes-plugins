@@ -5,6 +5,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.gmail.loyle.ShootCraft.Commands.MyCommandExecutor;
+import com.gmail.loyle.ShootCraft.Game.Game;
 import com.gmail.loyle.ShootCraft.Libraries.NmsUtils;
 import com.gmail.loyle.ShootCraft.Listener.PlayerListener;
 
@@ -14,6 +15,7 @@ public class ShootCraft extends JavaPlugin {
 	private static Plugin plugin;
 	public static ShootCraft instance = null;
 	public NmsUtils nmsutils;
+	public Game game;
 	
 	@Override
 	public void onEnable() {	
@@ -22,6 +24,9 @@ public class ShootCraft extends JavaPlugin {
 		// Create/Load config
 		this.getConfig().options().copyDefaults(true);
 		this.saveDefaultConfig();
+		
+		// Load Game system
+		this.game = new Game(this);
 		
 		// Load librarie NmsUtils
 		this.nmsutils = new NmsUtils();

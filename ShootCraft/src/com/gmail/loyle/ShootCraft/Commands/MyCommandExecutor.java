@@ -16,18 +16,16 @@ public class MyCommandExecutor implements CommandExecutor{
 	public ShootCraft plugin;
 	private HashMap<String, BasicCommand> commands;
 	
-	  @SuppressWarnings({ "rawtypes", "unchecked" })
 	public MyCommandExecutor(ShootCraft pl) {
 	    this.plugin = pl;
-	    this.commands = new HashMap();
+	    this.commands = new HashMap<>();
 	    loadCommands();
 	}
 	  
 	private void loadCommands() {
-		  /*this.commands.put("create", new CreateCommand(this.plugin));*/
+		  this.commands.put("setlobby", new setLobby(this.plugin));
 	}
 
-	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
 		Player player = null;
@@ -38,7 +36,7 @@ public class MyCommandExecutor implements CommandExecutor{
 			sender.sendMessage("You need to be a player !");
 			return true;
 		}
-		if (cmd.getName().equalsIgnoreCase("BaseProject")) {
+		if (cmd.getName().equalsIgnoreCase("shootcraft")) {
 			if ((args == null) || (args.length < 1)) {
 				player.sendMessage(ChatColor.YELLOW + "Plugin by Loyle | version 1.0.0 | /shootcraft help for see all commands");
 				return true;
@@ -50,7 +48,7 @@ public class MyCommandExecutor implements CommandExecutor{
 	      }
 	      String sub = args[0];
 	      
-	      Vector<String> l = new Vector();
+	      Vector<String> l = new Vector<>();
 	      l.addAll(Arrays.asList(args));
 	      l.remove(0);
 	      args = (String[])l.toArray(new String[0]);
