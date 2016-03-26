@@ -7,6 +7,7 @@ import com.gmail.loyle.ShootCraft.ShootCraft;
 public class GameManager {
 	public ShootCraft plugin;
 	private String path = "ShootCraft.";
+	private Boolean isStart = false;
 	
 	public GameManager(ShootCraft pl) {
 		this.plugin = pl;
@@ -20,11 +21,17 @@ public class GameManager {
 	}
 	public void checkStart() {
 		if(this.plugin.game.PlayersManager.getNumberPlayers() >= this.getMinPlayers()) {
-			this.plugin.getServer().broadcastMessage("START");
-		}
+			this.plugin.game.GameHandler.runGameCountdown();		}
 		else {
-			this.plugin.getServer().broadcastMessage("STOP");
+			this.plugin.game.GameHandler.stopGameCountdown();
 		}
+	}
+	
+	public void setIsStart(Boolean status) {
+		this.isStart = status;
+	}
+	public boolean getIsStart() {
+		return this.isStart;
 	}
 	
 	public void setLobby(Location l) {
