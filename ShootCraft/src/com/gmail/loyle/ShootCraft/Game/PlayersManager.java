@@ -1,4 +1,4 @@
-package com.gmail.loyle.ShootCraft.Game;
+package com.gmail.loyle.shootcraft.game;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,7 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
+import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class PlayersManager {
 	public ShootCraft plugin;

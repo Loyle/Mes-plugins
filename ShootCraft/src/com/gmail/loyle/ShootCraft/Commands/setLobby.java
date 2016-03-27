@@ -1,9 +1,9 @@
-package com.gmail.loyle.ShootCraft.Commands;
+package com.gmail.loyle.shootcraft.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
+import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class setLobby implements BasicCommand{
 	

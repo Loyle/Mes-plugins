@@ -1,4 +1,4 @@
-package com.gmail.loyle.ShootCraft.Libraries;
+package com.gmail.loyle.shootcraft.libraries;
 
 import java.lang.reflect.Field;
 

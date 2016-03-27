@@ -1,8 +1,8 @@
-package com.gmail.loyle.ShootCraft.Game;
+package com.gmail.loyle.shootcraft.game;
 
 import org.bukkit.Location;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
+import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class GameManager {
 	public ShootCraft plugin;

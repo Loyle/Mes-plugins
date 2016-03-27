@@ -1,6 +1,6 @@
-package com.gmail.loyle.ShootCraft.Game;
+package com.gmail.loyle.shootcraft.game;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
+import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class Game {
 	public ShootCraft plugin;

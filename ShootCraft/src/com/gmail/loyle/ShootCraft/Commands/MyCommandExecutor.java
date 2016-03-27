@@ -1,4 +1,4 @@
-package com.gmail.loyle.ShootCraft.Commands;
+package com.gmail.loyle.shootcraft.commands;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
+import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class MyCommandExecutor implements CommandExecutor{
 	public ShootCraft plugin;

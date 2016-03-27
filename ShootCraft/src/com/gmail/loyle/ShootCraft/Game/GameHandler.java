@@ -1,4 +1,4 @@
-package com.gmail.loyle.ShootCraft.Game;
+package com.gmail.loyle.shootcraft.game;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -7,8 +7,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
-import com.gmail.loyle.ShootCraft.Libraries.NmsUtils;
+import com.gmail.loyle.shootcraft.ShootCraft;
+import com.gmail.loyle.shootcraft.libraries.NmsUtils;
 
 public class GameHandler {
 	public ShootCraft plugin;

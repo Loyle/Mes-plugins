@@ -1,4 +1,4 @@
-package com.gmail.loyle.ShootCraft.Game;
+package com.gmail.loyle.shootcraft.game;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -6,7 +6,7 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.gmail.loyle.ShootCraft.ShootCraft;
+import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class ScoreboardManager {
 	
