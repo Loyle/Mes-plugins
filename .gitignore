@@ -4,5 +4,4 @@ bin/
 
 # Exclusion files
 .classpath.classpath
-.gitignore.txt
 .project.project
