@@ -1,7 +1,0 @@
-CutTheSaplings:
-  MinPlayers: 2
-  MaxPlayers: 20
-  Countdown: 20
-  HarvestTime: 20
-  PVPTime: 20
-  Map:

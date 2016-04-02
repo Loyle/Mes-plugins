@@ -1,9 +1,0 @@
-name: CutTheSaplings
-main: com.gmail.LoyleCraft.CutTheSaplings.CutTheSaplings
-version: 1.0.0
-description: CutTheSaplings
-author: LoyleCraft
-commands:
-  cts:
-    description: Informations
-    usage: /cts
