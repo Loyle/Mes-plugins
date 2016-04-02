@@ -1,0 +1,8 @@
+# Exclusion folders
+bin/
+.settings/
+
+# Exclusion files
+.classpath.classpath
+.gitignore.txt
+.project.project
