@@ -1,1 +1,1 @@
-Ce repos est uniquement là pour vous présentez mes différents projets/plugins :D
+Plugin ShootCraft by LoyleCraft in version 1.0.0
