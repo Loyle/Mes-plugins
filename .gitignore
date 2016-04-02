@@ -3,5 +3,5 @@ bin/
 .settings/
 
 # Exclusion files
-.classpath.classpath
-.project.project
+*.classpath
+*.project

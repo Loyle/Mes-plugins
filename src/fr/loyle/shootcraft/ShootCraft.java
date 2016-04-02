@@ -1,9 +1,7 @@
 package fr.loyle.shootcraft;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import fr.loyle.shootcraft.commands.MyCommandExecutor;
 import fr.loyle.shootcraft.game.Game;
 import fr.loyle.shootcraft.libraries.NmsUtils;
@@ -11,15 +9,11 @@ import fr.loyle.shootcraft.listener.PlayerListener;
 
 public class ShootCraft extends JavaPlugin {
 
-	@SuppressWarnings("unused")
-	private static Plugin plugin;
-	private static ShootCraft instance = null;
 	public NmsUtils nmsutils;
 	public Game game;
 
 	@Override
 	public void onEnable() {
-		plugin = this;
 
 		// Create/Load config
 		this.getConfig().options().copyDefaults(true);
@@ -43,23 +37,19 @@ public class ShootCraft extends JavaPlugin {
 		System.out.println("[ShootCraft] Disable (End game ?)");
 	}
 
-	public static Boolean hasPermission(Player p, String perm) {
+	public static Boolean hasPermission(Player player, String perm) {
 		if (perm.equalsIgnoreCase("")) {
-			return Boolean.valueOf(true);
+			return true;
 		}
-		if (p.isOp()) {
-			return Boolean.valueOf(true);
+		if (player.isOp()) {
+			return true;
 		}
-		if (p.hasPermission("ShootCraft.admin")) {
-			return Boolean.valueOf(true);
+		if (player.hasPermission("ShootCraft.admin")) {
+			return true;
 		}
-		if (p.hasPermission(perm)) {
-			return Boolean.valueOf(true);
+		if (player.hasPermission(perm)) {
+			return true;
 		}
-		return Boolean.valueOf(false);
-	}
-
-	public static ShootCraft getPlugin() {
-		return instance;
+		return false;
 	}
 }
