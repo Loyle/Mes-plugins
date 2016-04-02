@@ -1,10 +1,8 @@
 package com.gmail.loyle.shootcraft.listener;
 
-import java.util.Set;
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,7 +21,7 @@ import com.gmail.loyle.shootcraft.libraries.NmsUtils;
 
 public class PlayerListener implements Listener {
 
-	public ShootCraft plugin;
+	private ShootCraft plugin;
 
 	public PlayerListener(ShootCraft pl) {
 		this.plugin = pl;
@@ -32,20 +30,20 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerJoin(PlayerJoinEvent e) {
 		Player player = e.getPlayer();
-		this.plugin.game.PlayersManager.addPlayer(player);
+		this.plugin.game.getPlayersManager().addPlayer(player);
 
 		player.getInventory().clear();
 		player.setGameMode(GameMode.ADVENTURE);
 
 		NmsUtils.sendTitle(player, ChatColor.GOLD + "ShootCraft", ChatColor.RED + "Bienvenue dans le mini-jeu ShootCraft", 0, 80, 10);
-		e.setJoinMessage(ChatColor.YELLOW + player.getName() + " a rejoint (" + this.plugin.game.PlayersManager.getNumberPlayers() + "/" + this.plugin.game.GameManager.getMaxPlayers() + ")");
+		e.setJoinMessage(ChatColor.YELLOW + player.getName() + " a rejoint (" + this.plugin.game.getPlayersManager().getNumberPlayers() + "/" + this.plugin.game.getGameManager().getMaxPlayers() + ")");
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerLeave(PlayerQuitEvent e) {
 		Player player = e.getPlayer();
-		this.plugin.game.PlayersManager.removePlayer(player);
-		e.setQuitMessage(ChatColor.YELLOW + player.getName() + " a quitter (" + this.plugin.game.PlayersManager.getNumberPlayers() + "/" + this.plugin.game.GameManager.getMaxPlayers() + ")");
+		this.plugin.game.getPlayersManager().removePlayer(player);
+		e.setQuitMessage(ChatColor.YELLOW + player.getName() + " a quitter (" + this.plugin.game.getPlayersManager().getNumberPlayers() + "/" + this.plugin.game.getGameManager().getMaxPlayers() + ")");
 	}
 
 	@EventHandler(priority = EventPriority.NORMAL)
@@ -55,25 +53,40 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onDropItem(PlayerDropItemEvent e) {
-		if (this.plugin.game.GameManager.getIsStart()) {
+		if (this.plugin.game.getGameManager().getIsStart()) {
 			e.setCancelled(true);
 		}
 	}
 
 	/*
-	 * Firework and gun function !!!!!
+	 * 
+	 * Interact event for the hoe
 	 */
-	@EventHandler(priority = EventPriority.HIGHEST)
-	public void onPlayerInteract(PlayerInteractEvent e) {
-		if(this.plugin.game.GameManager.getIsStart()) {
-			Action action = e.getAction();
-			Player player = e.getPlayer();
-			ItemStack hoe = e.getItem();
-			
-			if(action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK && hoe.getType().equals(Material.WOOD_HOE) && hoe.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Houe en bois")) {
-				Location l = player.getLocation();
-				// En cours de travail
+
+	@SuppressWarnings("deprecation")
+	@EventHandler (priority = EventPriority.HIGHEST)
+	void onPlayerInteract(PlayerInteractEvent e){
+		Player player = e.getPlayer();
+		ItemStack hoe = player.getItemInHand();
+		
+		try {
+			if(e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK){
+				if(hoe != null && hoe.getType().equals(Material.WOOD_HOE) && hoe.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Houe en bois")){
+					e.setCancelled(true);
+					
+					Player targetPlayer = this.plugin.game.getPlayersManager().shootPlayer(player);
+					
+					if (targetPlayer != null) {
+						Bukkit.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.WHITE + " a tué " + ChatColor.RED + targetPlayer.getName());
+						
+						this.plugin.game.getScoreManager().addScore(player, 1);
+						
+						targetPlayer.teleport(this.plugin.game.getPlayersManager().getRandomSpawn());
+					}
+				}
 			}
+		}catch(Exception exception){
+			System.out.println(exception);
 		}
 	}
 }

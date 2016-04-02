@@ -13,7 +13,7 @@ public class ShootCraft extends JavaPlugin {
 
 	@SuppressWarnings("unused")
 	private static Plugin plugin;
-	public static ShootCraft instance = null;
+	private static ShootCraft instance = null;
 	public NmsUtils nmsutils;
 	public Game game;
 

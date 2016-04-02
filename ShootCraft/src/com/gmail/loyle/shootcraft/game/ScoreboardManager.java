@@ -10,7 +10,7 @@ import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class ScoreboardManager {
 	
-	public ShootCraft plugin;
+	private ShootCraft plugin;
 	private Scoreboard scoreboard;
 	
 	public ScoreboardManager(ShootCraft pl) {
@@ -29,6 +29,7 @@ public class ScoreboardManager {
 	
 	public void reloadScoreboard() {
 		String scoreboardName = "ShootCraft";
+		
 		Objective info = this.scoreboard.getObjective(ChatColor.GOLD + scoreboardName);	
 		if(info != null) {
 			info.unregister();
@@ -38,8 +39,15 @@ public class ScoreboardManager {
 		info.setDisplayName(ChatColor.GOLD + scoreboardName);
 		info.setDisplaySlot(DisplaySlot.SIDEBAR);
 		
-		info.getScore(ChatColor.WHITE+"Joueurs: " + ChatColor.RED + this.plugin.game.PlayersManager.getNumberPlayers()).setScore(1);
-		for(Player player : this.plugin.game.PlayersManager.getPlayers()) {
+		for(Player player: this.plugin.game.getPlayersManager().getPlayers()) {
+			info.getScore(player.getName()).setScore(this.plugin.game.getScoreManager().getScore(player));
+		}
+		
+		
+		
+		
+		
+		for(Player player : this.plugin.game.getPlayersManager().getPlayers()) {
 			player.setScoreboard(this.scoreboard);
 		}
 	}

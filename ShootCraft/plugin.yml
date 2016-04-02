@@ -1,9 +1,9 @@
 name: ShootCraft
-main: com.gmail.loyle.ShootCraft.ShootCraft
+main: com.gmail.loyle.shootcraft.ShootCraft
 version: 1.0.0
 description: ShootCraft
 author: Loyle
 commands:
-  ShootCraft:
+  shootcraft:
     description: Informations.
-    usage: /ShootCraft
+    usage: /shootcraft

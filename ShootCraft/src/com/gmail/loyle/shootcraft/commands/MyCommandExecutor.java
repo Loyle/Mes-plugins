@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import com.gmail.loyle.shootcraft.ShootCraft;
 
 public class MyCommandExecutor implements CommandExecutor{
-	public ShootCraft plugin;
+	private ShootCraft plugin;
 	private HashMap<String, BasicCommand> commands;
 	
 	public MyCommandExecutor(ShootCraft pl) {
@@ -23,7 +23,8 @@ public class MyCommandExecutor implements CommandExecutor{
 	}
 	  
 	private void loadCommands() {
-		  this.commands.put("setlobby", new setLobby(this.plugin));
+		this.commands.put("setlobby", new SetLobbyCommand(this.plugin));
+		this.commands.put("addspawn", new AddSpawnCommand(this.plugin));
 	}
 
 	@Override

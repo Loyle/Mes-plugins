@@ -5,18 +5,18 @@ import org.bukkit.entity.Player;
 
 import com.gmail.loyle.shootcraft.ShootCraft;
 
-public class setLobby implements BasicCommand{
+public class SetLobbyCommand implements BasicCommand{
 	
 	private ShootCraft plugin;
 	  
-	public setLobby(ShootCraft pl){
+	public SetLobbyCommand(ShootCraft pl){
 		this.plugin = pl;
 	}
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
 		if(ShootCraft.hasPermission(player, getPermission()).booleanValue()) {
-			this.plugin.game.GameManager.setLobby(player.getLocation());
+			this.plugin.game.getGameManager().setLobby(player.getLocation());
 			player.sendMessage(ChatColor.GREEN + "Lobby set !");
 			return true;
 		}

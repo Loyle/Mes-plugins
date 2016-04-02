@@ -2,3 +2,4 @@ ShootCraft:
   MinPlayers: 1
   MaxPlayers: 20
   CountDown: 30
+  MaxKills: 25
