@@ -73,6 +73,9 @@ public class GameHandler {
 			this.plugin.game.getPlayersManager().initInventory(player);
 			player.setGameMode(GameMode.ADVENTURE);
 			
+			player.setExp(1);
+			player.setLevel(1);
+			
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}

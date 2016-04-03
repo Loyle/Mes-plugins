@@ -7,10 +7,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
-
 import net.minecraft.server.v1_9_R1.EnumParticle;
 import net.minecraft.server.v1_9_R1.PacketPlayOutWorldParticles;
-
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.Vector;
-
 import fr.loyle.shootcraft.ShootCraft;
 
 public class PlayersManager {
@@ -36,6 +34,13 @@ public class PlayersManager {
 	@SuppressWarnings("unused")
 	private HashMap<UUID, Player> spectators = new HashMap<>();
 	private String path = "ShootCraft.";
+	
+	
+	/*
+	 * Private instance !
+	 */
+	private double rechargingtime;
+	private int taskid;
 
 	public PlayersManager(ShootCraft pl) {
 		this.plugin = pl;
@@ -95,11 +100,9 @@ public class PlayersManager {
 		while (spawns.isSet("" + i)) {
 			i++;
 		}
-		
-		i--;
-		
 
-		
+		i--;
+
 		int random = (int) (Math.random() * (i + 1 - 1)) + 1;
 
 		Double x = spawns.getDouble(random + ".X");
@@ -123,7 +126,7 @@ public class PlayersManager {
 		metaHoe.setDisplayName(ChatColor.GOLD + "Houe en bois");
 
 		List<String> lore = new ArrayList<>();
-		lore.add(ChatColor.DARK_AQUA + "1.6 seconde(s) pour recharger");
+		lore.add(ChatColor.DARK_AQUA + "1,6 seconde(s) pour recharger");
 
 		metaHoe.setLore(lore);
 		hoe.setItemMeta(metaHoe);
@@ -165,5 +168,26 @@ public class PlayersManager {
 			}
 		}
 		return null;
+	}
+
+	public void playerRecharge(final Player player, double rechargetime) {
+		rechargingtime = 20 * rechargetime;
+		//final double exptoadd = 7/rechargetime;
+		player.setExp(0);
+		player.setLevel(0);
+		
+		taskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
+			@Override
+			public void run() {
+				if (rechargingtime <= -1) {
+					player.setExp(1);
+					player.setLevel(1);
+					Bukkit.getScheduler().cancelTask(taskid);
+				}
+				else {
+					rechargingtime--;
+				}
+			}
+		}, 0L, 1L);
 	}
 }

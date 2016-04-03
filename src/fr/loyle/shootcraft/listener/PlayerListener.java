@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -68,26 +69,30 @@ public class PlayerListener implements Listener {
 	void onPlayerInteract(PlayerInteractEvent e) {
 		Player player = e.getPlayer();
 		ItemStack hoe = player.getItemInHand();
-
-		try {
+		if (player.getLevel() == 1) {
 			if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
 				if (hoe != null && hoe.getType().equals(Material.WOOD_HOE) && hoe.getItemMeta().getDisplayName().equals(ChatColor.GOLD + "Houe en bois")) {
 					e.setCancelled(true);
 
 					Player targetPlayer = this.plugin.game.getPlayersManager().shootPlayer(player);
+					player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_LAUNCH, 70, 1);
+					this.plugin.game.getPlayersManager().playerRecharge(player, 1.6);
 
 					if (targetPlayer != null) {
 						Bukkit.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.WHITE + " a tué " + ChatColor.RED + targetPlayer.getName());
+						player.playSound(player.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 50, 1);
 
 						this.plugin.game.getScoreManager().addScore(player, 1);
 
+						targetPlayer.setLevel(1);
+						targetPlayer.setExp(1);
 						targetPlayer.teleport(this.plugin.game.getPlayersManager().getRandomSpawn());
 					}
 				}
 			}
 		}
-		catch (Exception exception) {
-			System.out.println(exception);
+		else {
+			player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_FAIL, 70, 1);
 		}
 	}
 }
