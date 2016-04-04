@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
 import fr.loyle.shootcraft.ShootCraft;
+import fr.loyle.shootcraft.game.RechargeManager;
 import fr.loyle.shootcraft.libraries.NmsUtils;
 
 public class PlayerListener implements Listener {
@@ -76,7 +77,8 @@ public class PlayerListener implements Listener {
 
 					Player targetPlayer = this.plugin.game.getPlayersManager().shootPlayer(player);
 					player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_LAUNCH, 70, 1);
-					this.plugin.game.getPlayersManager().playerRecharge(player, 1.6);
+					RechargeManager recharge = new RechargeManager(this.plugin, player);
+					recharge.recharge(1.6);
 
 					if (targetPlayer != null) {
 						Bukkit.broadcastMessage(ChatColor.RED + player.getName() + ChatColor.WHITE + " a tué " + ChatColor.RED + targetPlayer.getName());

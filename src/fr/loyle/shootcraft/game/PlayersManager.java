@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 import net.minecraft.server.v1_9_R1.EnumParticle;
 import net.minecraft.server.v1_9_R1.PacketPlayOutWorldParticles;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
 import org.bukkit.Location;
@@ -34,13 +33,6 @@ public class PlayersManager {
 	@SuppressWarnings("unused")
 	private HashMap<UUID, Player> spectators = new HashMap<>();
 	private String path = "ShootCraft.";
-	
-	
-	/*
-	 * Private instance !
-	 */
-	private double rechargingtime;
-	private int taskid;
 
 	public PlayersManager(ShootCraft pl) {
 		this.plugin = pl;
@@ -168,26 +160,5 @@ public class PlayersManager {
 			}
 		}
 		return null;
-	}
-
-	public void playerRecharge(final Player player, double rechargetime) {
-		rechargingtime = 20 * rechargetime;
-		//final double exptoadd = 7/rechargetime;
-		player.setExp(0);
-		player.setLevel(0);
-		
-		taskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
-			@Override
-			public void run() {
-				if (rechargingtime <= -1) {
-					player.setExp(1);
-					player.setLevel(1);
-					Bukkit.getScheduler().cancelTask(taskid);
-				}
-				else {
-					rechargingtime--;
-				}
-			}
-		}, 0L, 1L);
 	}
 }
