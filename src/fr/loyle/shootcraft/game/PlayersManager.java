@@ -7,10 +7,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
+
 import net.minecraft.server.v1_9_R1.EnumParticle;
 import net.minecraft.server.v1_9_R1.PacketPlayOutWorldParticles;
+
 import org.bukkit.ChatColor;
 import org.bukkit.EntityEffect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -23,14 +26,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.PotionEffect;
 import org.bukkit.util.Vector;
+
 import fr.loyle.shootcraft.ShootCraft;
+import fr.loyle.shootcraft.libraries.NmsUtils;
 
 public class PlayersManager {
 	private ShootCraft plugin;
 
 	private HashMap<UUID, Player> players = new HashMap<>();
-	@SuppressWarnings("unused")
 	private HashMap<UUID, Player> spectators = new HashMap<>();
 	private String path = "ShootCraft.";
 
@@ -41,17 +46,33 @@ public class PlayersManager {
 	public void addPlayer(Player player) {
 		if (this.plugin.getConfig().isSet(path + "Lobby")) {
 			player.teleport(this.getTpLocation("Lobby"));
+			
 		}
 		else {
 			player.sendMessage(ChatColor.RED + "Lobby non définit");
 		}
-
+		
+		player.setExp(0);
+		player.getInventory().clear();
+		player.setGameMode(GameMode.ADVENTURE);
+		player.setFoodLevel(2000);
+		player.setHealth(20.0);
+		
+		for (PotionEffect effect : player.getActivePotionEffects()) {
+			player.removePotionEffect(effect.getType());
+		}
+		
+		NmsUtils.sendTitle(player, ChatColor.GOLD + "ShootCraft", ChatColor.RED + "Bienvenue dans le mini-jeu ShootCraft", 0, 80, 10);
+		
+		this.plugin.game.getScoreboardManager().joinTeam(player);
+		
 		this.players.put(player.getUniqueId(), player);
 		this.plugin.game.getGameManager().checkStart();
 	}
 
 	public void removePlayer(Player player) {
 		this.players.remove(player.getUniqueId());
+		this.plugin.game.getScoreboardManager().leaveTeam(player);
 		this.plugin.game.getGameManager().checkStart();
 	}
 
@@ -67,6 +88,25 @@ public class PlayersManager {
 		return this.players.containsKey(player.getUniqueId());
 	}
 
+	/*
+	 * 
+	 * Spectators managers !
+	 */
+	public void addSpectator(Player player) {
+		player.setGameMode(GameMode.SPECTATOR);
+		player.teleport(this.getRandomSpawn());
+		player.sendMessage(ChatColor.RED + "La partie est en cours...");
+		this.spectators.put(player.getUniqueId(), player);
+	}
+
+	public void removeSpectator(Player player) {
+		this.spectators.remove(player.getUniqueId());
+	}
+
+	/*
+	 * 
+	 * Functions for players
+	 */
 	public Location getTpLocation(String tpPath) {
 		if (this.plugin.getConfig().isSet(path + tpPath)) {
 			Double x = this.plugin.getConfig().getDouble(path + tpPath + ".X");
@@ -136,8 +176,7 @@ public class PlayersManager {
 		Vector increase = start.getDirection();
 		for (int i = 0; i < 50; i++) { // ici distance == 50
 			Location point = start.add(increase);
-			PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FIREWORKS_SPARK, true, (float) point.getX(), (float) point.getY(), (float) point.getZ(), 0, 0, 0, 0, 0,
-					null);
+			PacketPlayOutWorldParticles packet = new PacketPlayOutWorldParticles(EnumParticle.FIREWORKS_SPARK, true, (float) point.getX(), (float) point.getY(), (float) point.getZ(), 0, 0, 0, 0, 0, null);
 			((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
 			if (point.getBlock().getType().isSolid()) {
 				// ici on rencontre un bloc, on annule histoire d'évité de tirer
@@ -149,11 +188,13 @@ public class PlayersManager {
 					if (en != p && en.getType().equals(EntityType.PLAYER)) {
 						Player p2 = (Player) en;
 						if (p2.getLocation().distance(point) < 1.0 || p2.getEyeLocation().distance(point) < 1.0) {
-							// ici p2 est le joueur mort
-							// p est le joueur ayant tiré
-							p2.playEffect(EntityEffect.HURT);
+							if (p2.getGameMode() == GameMode.ADVENTURE || p2.getGameMode() == GameMode.SURVIVAL) {
+								// ici p2 est le joueur mort
+								// p est le joueur ayant tiré
+								p2.playEffect(EntityEffect.HURT);
 
-							return p2;
+								return p2;
+							}
 						}
 					}
 				}

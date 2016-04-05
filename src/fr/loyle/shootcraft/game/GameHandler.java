@@ -6,6 +6,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import fr.loyle.shootcraft.ShootCraft;
 import fr.loyle.shootcraft.libraries.NmsUtils;
@@ -41,7 +42,7 @@ public class GameHandler {
 							NmsUtils.sendTitle(player, ChatColor.GOLD + "Démarrage dans " + GameHandler.this.count, "", 5, 10, 5);
 							player.playSound(player.getLocation(), Sound.BLOCK_DISPENSER_DISPENSE, 20, 1);
 						}
-
+						player.setExp(1);
 						player.setLevel(GameHandler.this.count);
 					}
 					GameHandler.this.count--;
@@ -57,7 +58,7 @@ public class GameHandler {
 		Bukkit.getScheduler().cancelTask(this.runtaskid);
 		GameHandler.this.plugin.game.getGameManager().setIsStarting(false);
 	}
-	
+
 	/*
 	 * Start the game !
 	 */
@@ -65,48 +66,54 @@ public class GameHandler {
 		this.plugin.game.getScoreManager().initScores();
 		this.plugin.game.getGameManager().setIsStart(true);
 		this.plugin.game.getScoreboardManager().reloadScoreboard();
-		
-		
+
 		for (Player player : this.plugin.game.getPlayersManager().getPlayers()) {
 			player.setFoodLevel(2000);
 			player.setHealth(20.0);
 			this.plugin.game.getPlayersManager().initInventory(player);
 			player.setGameMode(GameMode.ADVENTURE);
-			
+
 			player.setExp(1);
 			player.setLevel(1);
-			
+
 			for (PotionEffect effect : player.getActivePotionEffects()) {
 				player.removePotionEffect(effect.getType());
 			}
-			
+
+			PotionEffect potion = new PotionEffect(PotionEffectType.SPEED, 100000, 0, true, false);
+			player.addPotionEffect(potion);
+
+
 			player.teleport(this.plugin.game.getPlayersManager().getRandomSpawn());
 
 			NmsUtils.sendTitle(player, ChatColor.GOLD + "C'est parti !", "", 5, 20, 5);
 		}
-		
-		
+
 		this.runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
 			public void run() {
 				GameHandler.this.plugin.game.getScoreboardManager().reloadScoreboard();
 				String winner = GameHandler.this.plugin.game.getScoreManager().checkIfWinner();
-				
-				if(winner != null) {
+
+
+				if (winner != null) {
 					GameHandler.this.finishGame(winner);
 				}
 			}
 		}, 0L, 1L);
 	}
-	
+
 	public void finishGame(String winner) {
 		Bukkit.getScheduler().cancelTask(this.runtaskid);
-		
-		for(Player player: this.plugin.game.getPlayersManager().getPlayers()) {
+
+		for (Player player : this.plugin.game.getPlayersManager().getPlayers()) {
 			player.getInventory().clear();
 		}
-		
+
 		Bukkit.broadcastMessage(ChatColor.GOLD + "Félicitation à " + winner + " qui remporte la partie !");
-		
+		Bukkit.broadcastMessage(ChatColor.RED + "Redémarrage du serveur dans " + this.finishcount + " seconde(s)");
+
+		NmsUtils.sendTitleToAllPlayer(ChatColor.GOLD + "Félicitation à " + winner, "", 10, 60, 10);
+
 		this.runtaskid = Bukkit.getScheduler().scheduleSyncRepeatingTask(this.plugin, new Runnable() {
 			public void run() {
 				if (GameHandler.this.finishcount <= -1) {
@@ -117,7 +124,6 @@ public class GameHandler {
 				}
 			}
 		}, 0L, 20L);
-		
-		
+
 	}
 }

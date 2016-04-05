@@ -3,8 +3,10 @@ package fr.loyle.shootcraft.game;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.NameTagVisibility;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 import fr.loyle.shootcraft.ShootCraft;
 
@@ -12,12 +14,12 @@ public class ScoreboardManager {
 	
 	private ShootCraft plugin;
 	private Scoreboard scoreboard;
+	private Team team;
 	
 	public ScoreboardManager(ShootCraft pl) {
 		this.plugin = pl;
 		
-		this.renewScoreboard();
-		
+		this.renewScoreboard();	
 	}
 	
 	public Scoreboard getScoreboard() {
@@ -25,6 +27,12 @@ public class ScoreboardManager {
 	}
 	public void renewScoreboard() {
 		this.scoreboard = this.plugin.getServer().getScoreboardManager().getNewScoreboard();
+		
+		this.scoreboard.registerNewTeam("NoName");
+		this.team = this.scoreboard.getTeam("NoName");
+		this.team.setNameTagVisibility(NameTagVisibility.NEVER);
+		this.team.setAllowFriendlyFire(false);
+		this.team.setCanSeeFriendlyInvisibles(false);
 	}
 	
 	public void reloadScoreboard() {
@@ -50,5 +58,12 @@ public class ScoreboardManager {
 		for(Player player : this.plugin.game.getPlayersManager().getPlayers()) {
 			player.setScoreboard(this.scoreboard);
 		}
+	}
+	
+	public void joinTeam(Player player) {
+		this.team.addEntry(player.getName());
+	}
+	public void leaveTeam(Player player) {
+		this.team.removeEntry(player.getName());
 	}
 }
