@@ -37,7 +37,7 @@ public class ShootCraft extends JavaPlugin {
 		System.out.println("[ShootCraft] Disable (End game ?)");
 	}
 
-	public static Boolean hasPermission(Player player, String perm) {
+	public Boolean hasPermission(Player player, String perm) {
 		if (perm.equalsIgnoreCase("")) {
 			return true;
 		}
